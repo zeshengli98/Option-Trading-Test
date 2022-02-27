@@ -22,8 +22,8 @@ noDataRecord = []
 
 historical_data = fetch_historical_data(contract=contract,
                                         endDateTime='',
-                                        durationStr='5 D',
-                                        barSizeSetting='1 hour',
+                                        durationStr='2 Y',
+                                        barSizeSetting='1 min',
                                         whatToShow='MIDPOINT',
                                         useRTH=True)
 extracted_data = pd.DataFrame()
@@ -36,8 +36,8 @@ for i, st in enumerate(tech_stock):
         contract.symbol = st
         historical_data = fetch_historical_data(contract=contract,
                                                 endDateTime='',
-                                                durationStr='5 D',
-                                                barSizeSetting='1 hour',
+                                                durationStr='2 Y',
+                                                barSizeSetting='1 min',
                                                 whatToShow='MIDPOINT',
                                                 useRTH=True)
 
@@ -48,7 +48,7 @@ for i, st in enumerate(tech_stock):
         extracted_data = extracted_data.join(dataToMerge.set_index('date'))
 
         print(extracted_data.head())
-        extracted_data.to_csv("stock_data.csv")
+        extracted_data.to_csv("stock_data_mintick.csv")
         print(f"--------------------------Complete {i} / {len(tech_stock)} stocks extraction!--------------------------")
     except:
         noDataRecord.append(st)

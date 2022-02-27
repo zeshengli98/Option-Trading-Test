@@ -106,8 +106,8 @@ def fetch_historical_data(contract, endDateTime='', durationStr='30 D',
     while app.historical_data_end != tickerId:
         time.sleep(0.01)
         request+=1
-        if request==500:
-            break
+        # if request==500:
+        #     break
 
     app.disconnect()
     return app.historical_data
