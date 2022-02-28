@@ -19,19 +19,27 @@ contract.exchange = 'SMART'
 contract.currency = 'USD'
 
 noDataRecord = []
+try:
+    extracted_data = pd.read_csv("stock_data_mintick.csv")
+    extracted_data = extracted_data.set_index('date')
 
-historical_data = fetch_historical_data(contract=contract,
-                                        endDateTime='',
-                                        durationStr='2 Y',
-                                        barSizeSetting='1 min',
-                                        whatToShow='MIDPOINT',
-                                        useRTH=True)
-extracted_data = pd.DataFrame()
-extracted_data['date'] = historical_data['date']
-extracted_data = extracted_data.set_index('date')
+except:
+    historical_data = fetch_historical_data(contract=contract,
+                                            endDateTime='',
+                                            durationStr='2 Y',
+                                            barSizeSetting='1 min',
+                                            whatToShow='MIDPOINT',
+                                            useRTH=True)
+    extracted_data = pd.DataFrame()
+    extracted_data['date'] = historical_data['date']
+    extracted_data = extracted_data.set_index('date')
 for i, st in enumerate(tech_stock):
     try:
         if st in noData_list:
+            continue
+        if st in extracted_data.columns:
+            print(f"-------------------------- {i} / {len(tech_stock)} stocks data existed!--------------------------")
+
             continue
         contract.symbol = st
         historical_data = fetch_historical_data(contract=contract,
